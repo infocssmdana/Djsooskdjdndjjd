@@ -4,7 +4,7 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const token = process.env.TELEGRAMBOT;
+    const token = process.env.TELEGRAM_BOT;
     const chatId = process.env.TELEGRAM_CHAT;
     const { text } = req.body;
 
