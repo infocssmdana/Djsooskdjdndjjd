@@ -5,7 +5,7 @@ module.exports = async (req, res) => {
 
   try {
     const token = process.env.TELEGRAMBOT_TOKEN;
-    const chatId = process.env.TELEGRAMCHAT_ID;
+    const chatId = process.env.TELEGRAM_ID;
     const { text } = req.body;
 
     const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
